@@ -10,7 +10,7 @@ public class VendingMachine {
 
     private int money;
 
-    private final Map<Coin, Integer> holdingMoney = new HashMap<>();
+    private final Map<Coin, Integer> holdingMoney = new LinkedHashMap<>();
     private final List<Integer> coins = Arrays.stream(Coin.values()).map(Coin::getAmount).collect(Collectors.toList());
 
     public VendingMachine(int money) {
@@ -33,10 +33,7 @@ public class VendingMachine {
     }
 
     private boolean cannotConvertMoneyToCoin(int generatedRandomCoin) {
-        if (generatedRandomCoin > money){
-            return true;
-        }
-        return false;
+        return generatedRandomCoin > money;
     }
 
     private int generatedRandomCoin() {
