@@ -11,4 +11,8 @@ public class InputView {
     public String readProduct() {
         return Console.readLine();
     }
+
+    public String readConsumeProduct() {
+        return Console.readLine();
+    }
 }

@@ -2,23 +2,28 @@ package vendingmachine.domain;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ManuFactureProduct {
-    List<Product> productList = new ArrayList<>();
-    public List<Product> manufactureReadProduct(List<String> split) {
+    Map<String, Product> productMap = new HashMap<>();
+    public Map<String, Product> manufactureReadProduct(List<String> split) {
         for (int i = 0; i < split.size(); i++) {
             validateWrapper(split.get(i));
             String deleteWrapper = replaceWrapper(split.get(i));
             List<String> commaSplit = splitComma(deleteWrapper);
-            addProduct(productList, commaSplit);
+            addProduct(commaSplit);
         }
-        return productList;
+        return productMap;
+    }
+    private void addProduct(List<String> commaSplit) {
+        Product product = makeProduct(commaSplit);
+        productMap.put(commaSplit.get(0), product);
     }
 
-    private void addProduct(List<Product> productList, List<String> commaSplit) {
-        productList.add(new Product(commaSplit.get(0), validateProductValue(commaSplit.get(1)), validateProductQuantity(
-            commaSplit.get(2))));
+    private Product makeProduct(List<String> commaSplit) {
+        return new Product(commaSplit.get(0), validateProductValue(commaSplit.get(1)),validateProductQuantity(commaSplit.get(2)));
     }
 
     private String replaceWrapper(String s) {
@@ -51,20 +56,34 @@ public class ManuFactureProduct {
         int convertProductQuantity = 0;
         try {
             convertProductQuantity = Integer.parseInt(readProductQuantity);
+            validatePositiveQuantity(convertProductQuantity);
         } catch (Exception e) {
-            throw new IllegalArgumentException("[ERROR] 수량으로는 숫자가 와야 합니다.");
+            throw new IllegalArgumentException("[ERROR] 수량으로는 양수의 숫자가 와야 합니다.");
         }
         return convertProductQuantity;
+    }
+
+    private void validatePositiveQuantity(int convertProductQuantity) {
+        if(convertProductQuantity<=0){
+            throw new IllegalArgumentException();
+        }
     }
 
     private int validateProductValue(String readProductValue) {
         int convertProductValue = 0;
         try {
             convertProductValue = Integer.parseInt(readProductValue);
+            validatePositiveValue(convertProductValue);
         } catch (Exception e) {
-            throw new IllegalArgumentException("[ERROR] 금액으로는 숫자가 와야 합니다.");
+            throw new IllegalArgumentException("[ERROR] 금액으로는 양수의 숫자가 와야 합니다.");
         }
         return validateUnitValue(convertProductValue);
+    }
+
+    private void validatePositiveValue(int convertProductValue) {
+        if(convertProductValue<=0){
+            throw new IllegalArgumentException();
+        }
     }
 
     private int validateUnitValue(int convertProductValue) {

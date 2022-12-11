@@ -1,6 +1,7 @@
 package vendingmachine.view;
 
 import java.util.List;
+import java.util.Map;
 import vendingmachine.domain.ManuFactureProduct;
 import vendingmachine.domain.Product;
 
@@ -14,12 +15,19 @@ public class Validator {
 
     public int validateChanges(String readChanges) {
         int changes = convertChangesStringToInt(readChanges);
+        validateChangeNumberPositive(changes);
         validateDivisibleByUnit(changes);
         return changes;
     }
 
-    private void validateDivisibleByUnit(int changes) {
-        if(changes%10>0){
+    private void validateChangeNumberPositive(int money) {
+        if(money<=0){
+            throw new IllegalArgumentException("[ERROR] 모든 금액은 양수여야 합니다.");
+        }
+    }
+
+    private void validateDivisibleByUnit(int money) {
+        if(money%10>0){
             throw new IllegalArgumentException("[ERROR] 모든 금액은 10원 단위로 나뉘어져야 합니다.");
         }
     }
@@ -34,7 +42,7 @@ public class Validator {
         return changes;
     }
 
-    public List<Product> validateProduct(String readProduct) {
+    public Map<String, Product> validateProduct(String readProduct) {
         long count = readProduct.chars().boxed().filter(c -> c==';').count();
         List<String> split = List.of(readProduct.split(DELEMETER));
         validateDelemeter(count,split);

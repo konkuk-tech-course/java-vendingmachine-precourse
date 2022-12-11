@@ -28,4 +28,21 @@ public class OutputView {
     public void printInputReadInputMoney() {
         System.out.println("투입 금액을 입력해 주세요.");
     }
+
+    public void printHandOverChange(int amount, int coinCount) {
+        System.out.printf("%d원-%d개\n", amount,coinCount);
+    }
+
+    public void printRemainInputMoney(int inputMoney) {
+        System.out.println("투입 금액: " + inputMoney + "원");
+    }
+
+    public void printInputConsumeProduct() {
+        System.out.println("구매할 상품명을 입력해 주세요.");
+    }
+
+    public void printLastRemainInputMoney(int inputMoney) {
+        System.out.println("투입 금액: " + inputMoney + "원");
+        System.out.println("잔돈");
+    }
 }
