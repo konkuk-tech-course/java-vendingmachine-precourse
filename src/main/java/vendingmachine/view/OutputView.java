@@ -20,4 +20,8 @@ public class OutputView {
             System.out.printf("%d원 - %d개\n", coin, coinMap.get(coin));
         }
     }
+
+    public void printInputProduct() {
+        System.out.println("상품명과 가격, 수량을 입력해 주세요.");
+    }
 }
