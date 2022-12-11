@@ -2,6 +2,7 @@ package vendingmachine.domain;
 
 import java.util.Map;
 import vendingmachine.Coin;
+import vendingmachine.domain.constant.ProductException;
 import vendingmachine.view.InputView;
 import vendingmachine.view.OutputView;
 
@@ -65,9 +66,7 @@ public class Machine {
     }
 
     private int findConsumeProductMoney(String s, Map<String, Product> products) {
-        int money=0;
         return products.get(s).getProductValue();
-
     }
 
     private String controlReadConsumeProduct(Map<String, Product> products) {
@@ -90,13 +89,13 @@ public class Machine {
 
     private void validateProductRemain(String consumeProduct, Map<String, Product> products) {
         if(products.get(consumeProduct).getProductQuantity()==0){
-            throw new IllegalArgumentException("[ERROR] 해당 상품이 남아있지 않습니다.");
+            throw new IllegalArgumentException(ProductException.PRODUCT_EXCEPTION_NO_REMAIN.message());
         }
     }
 
     private static void validateProductInProducts(String consumeProduct, Map<String, Product> products) {
         if (isConsumeProductInProducts(consumeProduct, products)) {
-            throw new IllegalArgumentException("[ERROR] 해당 상품이 존재하지 않습니다.");
+            throw new IllegalArgumentException(ProductException.PRODUCT_EXCEPTION_NO_PRODUCT.message());
         }
     }
 
@@ -107,14 +106,13 @@ public class Machine {
     }
 
     private int findMinMoney(Map<String, Product> products) {
-        int min=2121212121;
+        int min=Integer.MAX_VALUE;
         for(String key:products.keySet()){
             int productValue = products.get(key).getProductValue();
             if(min>productValue){
                 min=productValue;
             }
         }
-        System.out.println(min);
         return min;
     }
 }

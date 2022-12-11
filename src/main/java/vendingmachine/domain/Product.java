@@ -1,9 +1,6 @@
 package vendingmachine.domain;
 
-import java.util.List;
-
-public class Product implements  Comparable<Product>{
-
+public class Product {
     private String productName;
     private int productValue;
     private int productQuantity;
@@ -15,9 +12,6 @@ public class Product implements  Comparable<Product>{
         this.productQuantity = productQuantity;
     }
 
-    public String getProductName() {
-        return productName;
-    }
 
     public int getProductValue() {
         return productValue;
@@ -31,8 +25,4 @@ public class Product implements  Comparable<Product>{
         this.productQuantity = productQuantity;
     }
 
-    @Override
-    public int compareTo(Product o) {
-        return o.getProductValue()-getProductValue();
-    }
 }

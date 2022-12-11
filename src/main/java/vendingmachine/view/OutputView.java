@@ -2,7 +2,9 @@ package vendingmachine.view;
 
 import java.util.List;
 import java.util.Map;
+import javax.swing.text.View;
 import vendingmachine.Coin;
+import vendingmachine.view.constant.ViewConstant;
 
 public class OutputView {
 
@@ -11,38 +13,38 @@ public class OutputView {
     }
 
     public void printInputReadChanges() {
-        System.out.println("자판기가 보유하고 있는 금액을 입력해 주세요.");
+        System.out.println(ViewConstant.INPUT_CHANGE_MONEY.message());
     }
 
     public void printCoinMap(Map<Integer, Integer> coinMap, List<Integer> coinList) {
-        System.out.println("자판기가 보유한 동전");
+        System.out.println(ViewConstant.START_COIN_MAP.message());
         for(int coin : coinList){
-            System.out.printf("%d원 - %d개\n", coin, coinMap.get(coin));
+            System.out.printf(ViewConstant.CHANGE_LIST.message(), coin, coinMap.get(coin));
         }
     }
 
     public void printInputProduct() {
-        System.out.println("상품명과 가격, 수량을 입력해 주세요.");
+        System.out.println(ViewConstant.INPUT_PRODUCT.message());
     }
 
     public void printInputReadInputMoney() {
-        System.out.println("투입 금액을 입력해 주세요.");
+        System.out.println(ViewConstant.INPUT_READ_MONEY.message());
     }
 
     public void printHandOverChange(int amount, int coinCount) {
-        System.out.printf("%d원-%d개\n", amount,coinCount);
+        System.out.printf(ViewConstant.HAND_OVER_CHANGE.message(), amount,coinCount);
     }
 
     public void printRemainInputMoney(int inputMoney) {
-        System.out.println("투입 금액: " + inputMoney + "원");
+        System.out.printf(ViewConstant.INPUT_REMAIN_MONEY.message(), inputMoney);
     }
 
     public void printInputConsumeProduct() {
-        System.out.println("구매할 상품명을 입력해 주세요.");
+        System.out.println(ViewConstant.INPUT_CONSUME_PRODUCT.message());
     }
 
     public void printLastRemainInputMoney(int inputMoney) {
-        System.out.println("투입 금액: " + inputMoney + "원");
-        System.out.println("잔돈");
+        System.out.println(ViewConstant.INPUT_REMAIN_MONEY.message());
+        System.out.println(ViewConstant.CHANGE_MONEY.message());
     }
 }
