@@ -44,7 +44,7 @@ public class Util {
         System.out.println(substring);
     }
 
-    public static int convertStringToPrice(String message) {
+    public static int convertStringToProductPrice(String message) {
         int price = Util.convertStringToInt(message);
         Validator.validatePrice(price);
         return price;
