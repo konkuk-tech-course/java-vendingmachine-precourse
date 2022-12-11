@@ -13,7 +13,7 @@ public class MachineMoney {
         return money;
     }
 
-    public MachineMoney(int money) {
+    public MachineMoney(int money) throws IllegalArgumentException{
         this.money = money;
     }
 }
