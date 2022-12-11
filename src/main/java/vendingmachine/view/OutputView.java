@@ -44,7 +44,7 @@ public class OutputView {
     }
 
     public void printLastRemainInputMoney(int inputMoney) {
-        System.out.println(ViewConstant.INPUT_REMAIN_MONEY.message());
+        System.out.printf(ViewConstant.REMAIN_MONEY.message(),inputMoney);
         System.out.println(ViewConstant.CHANGE_MONEY.message());
     }
 }

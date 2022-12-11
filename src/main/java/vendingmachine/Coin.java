@@ -1,7 +1,5 @@
 package vendingmachine;
 
-import java.util.Arrays;
-import java.util.List;
 
 public enum Coin {
     COIN_500(500),
@@ -22,5 +20,4 @@ public enum Coin {
 
 
 
-    // 추가 기능 구현
 }
