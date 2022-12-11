@@ -1,7 +1,5 @@
 package vendingmachine.domain;
 
-import vendingmachine.Coin;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -11,7 +9,8 @@ import static vendingmachine.Coin.COIN_10;
 public class Validator {
     public static final int PRODUCT_INFO_SIZE = 3;
     public static final int MIN_PRICE = 100;
-    private static final String format = "^\\[[a-zA-Z0-9가-힣]+,\\d+,\\d+\\]$";
+    public static final String DELIMITER = ";";
+    private static final String format = "^\\[[a-zA-Z0-9가-힣]+,\\d+,\\d+]$";
 
     public static void validateDividedByTen(int money) {
         if (money % COIN_10.getAmount() != 0) {
@@ -20,7 +19,7 @@ public class Validator {
     }
 
     public static void validateProductFormat(String productListInfo) {
-        Arrays.stream(productListInfo.split(";")).forEach(Validator::isMatchesWithFormat);
+        Arrays.stream(productListInfo.split(DELIMITER)).forEach(Validator::isMatchesWithFormat);
     }
 
     private static void isMatchesWithFormat(String productInfo) {
@@ -52,5 +51,11 @@ public class Validator {
 
     private static boolean hasAnyMatch(String productName, List<Product> products) {
        return products.stream().map(Product::getName).anyMatch(product -> product.equals(productName));
+    }
+
+    public static void main(String[] args) {
+
+        boolean matches = Pattern.matches(format, "[,10,12]");
+        System.out.println("matches = " + matches);
     }
 }
