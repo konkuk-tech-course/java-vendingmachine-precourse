@@ -9,6 +9,7 @@ import vendingmachine.view.OutputView;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class VendingMachineController {
 
@@ -39,7 +40,6 @@ public class VendingMachineController {
         // 상품이 모두 소진되었거나 minimum price보다 input이 적을때.
         while (true) {
             if (hasNoProduct(products) || isInputNotSmallerThanMinimunPrice(minimumPrice)) {
-                outputView.printReturnedCoin(inputMoney);
                 break;
             }
             String productName = inputView.readProductName(inputMoney);
@@ -53,6 +53,10 @@ public class VendingMachineController {
             matchedProduct.decreaseAmount();
         }
         // products에 productName과 같은 것 찾아서 가격만큼 투입 가격 감소시키기(inputMoney), product수량 감소시키기.
+
+        holdingMoney.values().remove(0);
+        System.out.println(holdingMoney);
+        outputView.printReturnedCoin(holdingMoney,inputMoney);
 
 
 
