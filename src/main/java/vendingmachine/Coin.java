@@ -1,5 +1,6 @@
 package vendingmachine;
 
+
 public enum Coin {
     COIN_500(500),
     COIN_100(100),
@@ -12,5 +13,11 @@ public enum Coin {
         this.amount = amount;
     }
 
-    // 추가 기능 구현
+    public int getAmount() {
+        return amount;
+    }
+
+
+
+
 }
