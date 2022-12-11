@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import jdk.jshell.EvalException;
 import vendingmachine.Coin;
 import vendingmachine.domain.ChangeGenerator;
+import vendingmachine.domain.Machine;
 import vendingmachine.domain.Product;
 import vendingmachine.view.InputView;
 import vendingmachine.view.OutputView;
@@ -18,12 +18,14 @@ public class VendingController {
     private OutputView outputView;
     private Validator validator;
     private ChangeGenerator changeGenerator;
+    private Machine machine;
 
     public VendingController() {
         this.inputView = new InputView();
         this.outputView = new OutputView();
         this.validator= new Validator();
         this.changeGenerator = new ChangeGenerator();
+        this.machine = new Machine();
     }
 
     public void activate(){
@@ -31,8 +33,23 @@ public class VendingController {
         Map<Integer, Integer> coinMap = changeGenerator.generate(changes,initCoinList());
         outputView.printCoinMap(coinMap,initCoinList());
         List<Product> products = controlReadProduct();
+        controlReadInputMoney();
+        machine.activate(products);
+
         System.out.println(products);
 
+    }
+
+    private int controlReadInputMoney() {
+        int inputMoney=0;
+        outputView.printInputReadInputMoney();
+        try{
+            inputMoney = validator.validateInputMoney(inputView.readChanges());
+        }catch (IllegalArgumentException e){
+            outputView.printException(e.getMessage());
+            return controlReadChanges();
+        }
+        return inputMoney;
     }
 
     private List<Product> controlReadProduct() {

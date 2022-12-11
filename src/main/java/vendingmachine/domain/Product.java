@@ -15,5 +15,15 @@ public class Product {
         this.productQuantity = productQuantity;
     }
 
+    public String getProductName() {
+        return productName;
+    }
 
+    public int getProductValue() {
+        return productValue;
+    }
+
+    public int getProductQuantity() {
+        return productQuantity;
+    }
 }
