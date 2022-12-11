@@ -3,7 +3,7 @@ package vendingmachine.view;
 import vendingmachine.Coin;
 
 import java.util.Map;
-import java.util.stream.Stream;
+import java.util.Map.Entry;
 
 public class OutputView {
 
@@ -24,9 +24,10 @@ public class OutputView {
         }
         // 투입금액이 크지 않으면 최소개수로 반환
         // 먼저 500원부터 반환해주고, 100원 반환해주고 , 50원 반환해주고, 10원 반환해주고
-        for (Map.Entry<Coin, Integer> coinIntegerEntry : holdingMoney.entrySet()) {
+        for (Entry<Coin, Integer> coinIntegerEntry : holdingMoney.entrySet()) {
             int count = money % coinIntegerEntry.getKey().getAmount();
             if (coinIntegerEntry.getValue() < count) {
+                // entry에서 지우기
 
             }
             money -= coinIntegerEntry.getKey().getAmount() * count;
@@ -43,7 +44,7 @@ public class OutputView {
 
     private int getTotalMachineMoney(Map<Coin, Integer> holdingMoney) {
         int totalMoney = 0;
-        for (Map.Entry<Coin, Integer> coinIntegerEntry : holdingMoney.entrySet()) {
+        for (Entry<Coin, Integer> coinIntegerEntry : holdingMoney.entrySet()) {
             totalMoney += coinIntegerEntry.getKey().getAmount() * coinIntegerEntry.getValue();
         }
         return totalMoney;

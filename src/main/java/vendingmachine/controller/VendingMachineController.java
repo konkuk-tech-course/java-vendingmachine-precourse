@@ -9,17 +9,25 @@ import vendingmachine.view.OutputView;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 public class VendingMachineController {
 
+    private final InputView inputView;
+
+    private final OutputView outputView;
+
+    public VendingMachineController() {
+        this.inputView = new InputView();
+        this.outputView = new OutputView();
+    }
+
     private int inputMoney;
+    private VendingMachine machine;
+    private List<Product> products;
 
     public void run() {
-        InputView inputView = new InputView();
-        OutputView outputView = new OutputView();
-//        int money = inputView.readVendingMachineMoney();
-        VendingMachine machine = new VendingMachine(1000);
+        int money = inputView.readVendingMachineMoney();
+        machine = new VendingMachine(money);
         machine.convertMoneyToRandomCoin();
         System.out.println("money : " + machine.getMoney());
 
@@ -28,7 +36,7 @@ public class VendingMachineController {
 
         outputView.printMachineCoin(holdingMoney);
 
-        List<Product> products = inputView.readProductInfo();
+        products = inputView.readProductInfo();
         // 상품 최저가격 계산
         int minimumPrice = products.stream().mapToInt(Product::getPrice).min().getAsInt();
 
@@ -54,12 +62,16 @@ public class VendingMachineController {
         }
         // products에 productName과 같은 것 찾아서 가격만큼 투입 가격 감소시키기(inputMoney), product수량 감소시키기.
 
-        holdingMoney.values().remove(0);
+        removeEmptyCoin(holdingMoney);
         System.out.println(holdingMoney);
         outputView.printReturnedCoin(holdingMoney,inputMoney);
 
 
 
+    }
+
+    private void removeEmptyCoin(Map<Coin, Integer> holdingMoney) {
+        holdingMoney.values().remove(0);
     }
 
     private boolean isInputNotSmallerThanMinimunPrice(int minimumPrice) {
