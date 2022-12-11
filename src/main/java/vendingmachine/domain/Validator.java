@@ -39,7 +39,7 @@ public class Validator {
         if (price <= MIN_PRICE){
             throw new IllegalArgumentException("[ERROR] 상품 가격은 100보다는 커야 합니다");
         }
-        if (price % Coin.COIN_10.getAmount() != 0){
+        if (price % COIN_10.getAmount() != 0){
             throw new IllegalArgumentException("[ERROR] 상품 가격은 10원으로 나누어떨어져야 한다.");
         }
     }
