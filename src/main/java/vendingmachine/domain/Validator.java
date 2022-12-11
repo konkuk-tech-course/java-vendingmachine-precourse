@@ -13,7 +13,7 @@ public class Validator {
     public static final int MIN_PRICE = 100;
     private static final String format = "^\\[[a-zA-Z0-9가-힣]+,\\d+,\\d+\\]$";
 
-    public static void validateMachineMoney(int money) {
+    public static void validateDividedByTen(int money) {
         if (money % COIN_10.getAmount() != 0) {
             throw new IllegalArgumentException("[ERROR] 10원 단위로 입력하셔야합니다.");
         }
@@ -42,5 +42,15 @@ public class Validator {
         if (price % Coin.COIN_10.getAmount() != 0){
             throw new IllegalArgumentException("[ERROR] 상품 가격은 10원으로 나누어떨어져야 한다.");
         }
+    }
+
+    public static void validateProductName(String productName, List<Product> products) {
+        if(!hasAnyMatch(productName, products)){
+            throw new IllegalArgumentException("[ERROR] 일치하는 상품이 없습니다.");
+        }
+    }
+
+    private static boolean hasAnyMatch(String productName, List<Product> products) {
+       return products.stream().map(Product::getName).anyMatch(product -> product.equals(productName));
     }
 }
