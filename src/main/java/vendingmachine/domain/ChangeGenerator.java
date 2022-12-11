@@ -1,7 +1,6 @@
 package vendingmachine.domain;
 
 import camp.nextstep.edu.missionutils.Randoms;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,9 +8,8 @@ import vendingmachine.Coin;
 
 public class ChangeGenerator {
     Map<Integer, Integer> coinMap = new HashMap<>();
-    List<Integer> coinList =new ArrayList<>();
 
-    public Map<Integer, Integer> generate(int changes) {
+    public Map<Integer, Integer> generate(int changes, List<Integer> coinList) {
         init();
         while(changes>0){
             int unit = Randoms.pickNumberInList(coinList);
@@ -32,7 +30,6 @@ public class ChangeGenerator {
     private void init() {
         for(Coin coin : Coin.values()){
             coinMap.put(coin.getAmount(), 0);
-            coinList.add(coin.getAmount());
         }
     }
 }
