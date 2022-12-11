@@ -2,6 +2,10 @@ package vendingmachine.utils;
 
 public class Util {
     public static int convertStringToInt(String input) {
-        return Integer.parseInt(input);
+        try {
+            return Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("[ERROR] 숫자를 입력하세요");
+        }
     }
 }
