@@ -13,7 +13,7 @@ public class InputView {
     public int readVendingMachineMoney() {
         System.out.println("자판기가 보유하고 있는 금액을 입력해 주세요.");
         int money = Util.convertStringToInt(Console.readLine());
-        Validator.validateMachineMoney(money);
+        Validator.validateDividedByTen(money);
         return money;
     }
 
@@ -22,6 +22,20 @@ public class InputView {
         String productListInfo = Console.readLine();
         Validator.validateProductFormat(productListInfo);
         return Util.convertProductListToProduct(productListInfo);
+    }
+
+    public int readInputMoney(){
+        System.out.println("투입 금액을 입력해 주세요.");
+        int money = Util.convertStringToInt(Console.readLine());
+        Validator.validateDividedByTen(money);
+        return money;
+    }
+
+    // 투입 금액 입력받기
+    public String readProductName(Integer money) {
+        System.out.println("투입 금액: " + money);
+        System.out.println("구매할 상품명을 입력해 주세요.");
+        return Console.readLine();
     }
 
     public static void main(String[] args) {
