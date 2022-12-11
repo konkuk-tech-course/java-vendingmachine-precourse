@@ -44,7 +44,7 @@ public class Validator {
     }
 
     public static void validateProductName(String productName, List<Product> products) {
-        if(!hasAnyMatch(productName, products)){
+        if (!hasAnyMatch(productName, products)) {
             throw new IllegalArgumentException("[ERROR] 일치하는 상품이 없습니다.");
         }
     }

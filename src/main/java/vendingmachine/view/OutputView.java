@@ -30,22 +30,49 @@ public class OutputView {
             printIntoFormat(holdingMoney);
             return;
         }
-        for (Entry<Coin, Integer> coinIntegerEntry : holdingMoney.entrySet()) {
-            int count = money / coinIntegerEntry.getKey().getAmount(); // 1770 / 500 == 3 // 실제 자판기 : 500원 4개
-            if (count == 0) {
-                continue;
-            }
-            if (coinIntegerEntry.getValue() < count) {
-                // entry에서 지우기, money에서 값 만 큼 빼기
-                returnedCoin.put(coinIntegerEntry.getKey(), coinIntegerEntry.getValue());
-                money -= coinIntegerEntry.getValue();
-                holdingMoney.remove(coinIntegerEntry.getKey());
-                continue;
-            }
-            returnedCoin.put(coinIntegerEntry.getKey(), count);
-            money -= coinIntegerEntry.getKey().getAmount() * count;
-        }
+        loopMapWithMoney(holdingMoney, money);
         printIntoFormat(returnedCoin);
+    }
+
+    private void loopMapWithMoney(Map<Coin, Integer> holdingMoney, int money) {
+        for (Entry<Coin, Integer> coinIntegerEntry : holdingMoney.entrySet()) {
+            Integer count = getCountWithNoZero(money, coinIntegerEntry);
+            if (count == null) continue;
+            if (coinIntegerEntry.getValue() < count) {
+                money = calculateMoney(holdingMoney, money, coinIntegerEntry);
+                continue;
+            }
+            money = calculateMoney(money, coinIntegerEntry, count);
+        }
+    }
+
+    private Integer getCountWithNoZero(int money, Entry<Coin, Integer> coinIntegerEntry) {
+        int count = getCount(money, coinIntegerEntry);
+        if (isCountEqualsZero(count)){
+            return null;
+        }
+        return count;
+    }
+
+    private int getCount(int money, Entry<Coin, Integer> coinIntegerEntry) {
+        return money / coinIntegerEntry.getKey().getAmount();
+    }
+
+    private int calculateMoney(int money, Entry<Coin, Integer> coinIntegerEntry, int count) {
+        returnedCoin.put(coinIntegerEntry.getKey(), count);
+        money -= coinIntegerEntry.getKey().getAmount() * count;
+        return money;
+    }
+
+    private int calculateMoney(Map<Coin, Integer> holdingMoney, int money, Entry<Coin, Integer> coinIntegerEntry) {
+        returnedCoin.put(coinIntegerEntry.getKey(), coinIntegerEntry.getValue());
+        money -= coinIntegerEntry.getValue();
+        holdingMoney.remove(coinIntegerEntry.getKey());
+        return money;
+    }
+
+    private static boolean isCountEqualsZero(int count) {
+        return count == 0;
     }
 
     private int getTotalMachineMoney(Map<Coin, Integer> holdingMoney) {
@@ -54,16 +81,5 @@ public class OutputView {
             totalMoney += coinIntegerEntry.getKey().getAmount() * coinIntegerEntry.getValue();
         }
         return totalMoney;
-    }
-
-    public static void main(String[] args) {
-        OutputView outputView = new OutputView();
-        Map<Coin, Integer> map = new LinkedHashMap<>();
-        map.put(COIN_500, 3);
-        map.put(COIN_100, 5);
-        map.put(COIN_50, 3);
-        map.put(COIN_10, 1);
-        outputView.printReturnedCoin(map, 1350);
-
     }
 }

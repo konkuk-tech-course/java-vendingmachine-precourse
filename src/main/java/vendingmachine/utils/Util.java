@@ -20,7 +20,7 @@ public class Util {
         }
     }
 
-    public static List<Product> convertProductListToProduct(String productListInfo) {
+    public static List<Product> convertProductListToProduct(String productListInfo){
         return Arrays.stream(productListInfo.split(PRODUCT_DELIMITER))
                 .map(Util::convertToProduct)
                 .collect(Collectors.toList());
