@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Util {
+    public static final String PRODUCT_DELIMITER = ";";
+    public static final String INFO_DELIMITER = ",";
 
-
-    public static final String DELIMITER = ",";
 
     public static int convertStringToInt(String input) {
         try {
@@ -21,14 +21,14 @@ public class Util {
     }
 
     public static List<Product> convertProductListToProduct(String productListInfo) {
-        return Arrays.stream(productListInfo.split(DELIMITER))
+        return Arrays.stream(productListInfo.split(PRODUCT_DELIMITER))
                 .map(Util::convertToProduct)
                 .collect(Collectors.toList());
     }
 
     private static Product convertToProduct(String productInfo) {
         List<String> productInfoList = Arrays.stream(bracketRemovedString(productInfo)
-                .split(DELIMITER))
+                .split(INFO_DELIMITER))
                 .collect(Collectors.toList());
         Validator.validateProductListSize(productInfoList);
         return new Product(productInfoList);
@@ -38,17 +38,9 @@ public class Util {
         return productInfo.substring(1, productInfo.length() - 1);
     }
 
-    public static void main(String[] args) {
-        String productInfo = "[콜라,1500,2545640]";
-        String substring = bracketRemovedString(productInfo);
-        System.out.println(substring);
-    }
-
     public static int convertStringToProductPrice(String message) {
         int price = Util.convertStringToInt(message);
         Validator.validatePrice(price);
         return price;
     }
-
-
 }

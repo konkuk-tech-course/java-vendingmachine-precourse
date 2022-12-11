@@ -33,7 +33,7 @@ public class InputView {
 
     // 투입 금액 입력받기
     public String readProductName(Integer money) {
-        System.out.println("투입 금액: " + money);
+        System.out.println("투입 금액: " + money + "원");
         System.out.println("구매할 상품명을 입력해 주세요.");
         return Console.readLine();
     }

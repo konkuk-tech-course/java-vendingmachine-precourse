@@ -9,6 +9,7 @@ import vendingmachine.view.OutputView;
 
 import java.util.List;
 import java.util.Map;
+import java.util.OptionalInt;
 
 public class VendingMachineController {
 
@@ -22,56 +23,60 @@ public class VendingMachineController {
     }
 
     private int inputMoney;
-    private VendingMachine machine;
-    private List<Product> products;
 
     public void run() {
+        try {
+            process();
+        }catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void process() {
         int money = inputView.readVendingMachineMoney();
-        machine = new VendingMachine(money);
+        VendingMachine machine = new VendingMachine(money);
         machine.convertMoneyToRandomCoin();
-        System.out.println("money : " + machine.getMoney());
-
         Map<Coin, Integer> holdingMoney = machine.getHoldingMoney();
-        System.out.println("holdingMoney : " + holdingMoney);
-
         outputView.printMachineCoin(holdingMoney);
-
-        products = inputView.readProductInfo();
-        // 상품 최저가격 계산
-        int minimumPrice = products.stream().mapToInt(Product::getPrice).min().getAsInt();
-
-        //투입금액
+        List<Product> products = inputView.readProductInfo();
+        int minimumPrice = getMinimumPrice(products);
         inputMoney = inputView.readInputMoney();
-        // ---------------------
+        getProductName(products, minimumPrice);
+        outputView.printReturnedCoin(holdingMoney, inputMoney);
+    }
 
-        // 아래 두 조건은 구매할 상품명 입력전 마다 확인해줘야 함
-        // 상품이 모두 소진되었거나 minimum price보다 input이 적을때.
-        while (true) {
-            if (hasNoProduct(products) || isInputNotSmallerThanMinimunPrice(minimumPrice)) {
-                break;
-            }
-            String productName = inputView.readProductName(inputMoney);
-            Validator.validateProductName(productName, products);
-
-            Product matchedProduct = products.stream()
-                    .filter(product -> product.getName().equals(productName))
-                    .findAny()
-                    .orElseThrow(() -> new IllegalArgumentException("[ERROR] 일치하는 상품이 없습니다"));
+    private void getProductName(List<Product> products, int minimumPrice) {
+        while (isRightCondition(products, minimumPrice)) {
+            String productName = getAndValidateProductName(products);
+            Product matchedProduct = getMatchedProduct(products, productName);
             inputMoney -= matchedProduct.getPrice();
             matchedProduct.decreaseAmount();
         }
-        // products에 productName과 같은 것 찾아서 가격만큼 투입 가격 감소시키기(inputMoney), product수량 감소시키기.
-
-        removeEmptyCoin(holdingMoney);
-        System.out.println(holdingMoney);
-        outputView.printReturnedCoin(holdingMoney,inputMoney);
-
-
-
     }
 
-    private void removeEmptyCoin(Map<Coin, Integer> holdingMoney) {
-        holdingMoney.values().remove(0);
+    private static Product getMatchedProduct(List<Product> products, String productName) {
+        return products.stream()
+                .filter(product -> product.getName().equals(productName))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 일치하는 상품이 없습니다"));
+    }
+
+    private String getAndValidateProductName(List<Product> products) {
+        String productName = inputView.readProductName(inputMoney);
+        Validator.validateProductName(productName, products);
+        return productName;
+    }
+
+    private boolean isRightCondition(List<Product> products, int minimumPrice) {
+        return !hasNoProduct(products) && isInputNotSmallerThanMinimunPrice(minimumPrice);
+    }
+
+    private int getMinimumPrice(List<Product> products) {
+        OptionalInt minimumPrice = products.stream().mapToInt(Product::getPrice).min();
+        if (minimumPrice.isPresent()) {
+            return minimumPrice.getAsInt();
+        }
+        throw new IllegalArgumentException("[ERROR] 최솟값을 구할 수 없습니다");
     }
 
     private boolean isInputNotSmallerThanMinimunPrice(int minimumPrice) {
@@ -79,20 +84,8 @@ public class VendingMachineController {
     }
 
     private boolean hasNoProduct(List<Product> products) {
-        return products.stream().map(Product::getAmount)
+        return products.stream()
+                .map(Product::getAmount)
                 .allMatch(i -> i == 0);
-    }
-
-    public static void main(String[] args) {
-        /*VendingMachine machine = new VendingMachine(1000);
-        machine.convertMoneyToRandomCoin();
-        int money = machine.getMoney();
-        System.out.println("money = " + money);
-        Map<Coin, Integer> holdingMoney = machine.getHoldingMoney();
-        System.out.println("holdingMoney = " + holdingMoney);*/
-
-        VendingMachineController controller = new VendingMachineController();
-        controller.run();
-
     }
 }

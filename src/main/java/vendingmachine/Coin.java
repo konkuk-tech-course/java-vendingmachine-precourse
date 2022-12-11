@@ -15,7 +15,7 @@ public enum Coin {
     }
 
     // 추가 기능 구현
-    public static Coin convertMachingCoint(int money) {
+    public static Coin convertMatchingCoin(int money) {
         return Arrays.stream(Coin.values())
                 .filter(coin -> coin.getAmount() == money)
                 .findAny()
@@ -25,4 +25,8 @@ public enum Coin {
     public int getAmount() {
         return amount;
     }
+
+
+
+
 }

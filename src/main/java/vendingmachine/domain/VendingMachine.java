@@ -26,7 +26,7 @@ public class VendingMachine {
         while (money != 0) {
             int generatedRandomCoin = generatedRandomCoin();
             if (cannotConvertMoneyToCoin(generatedRandomCoin)) continue;
-            Coin coin = Coin.convertMachingCoint(generatedRandomCoin);
+            Coin coin = Coin.convertMatchingCoin(generatedRandomCoin);
             putCoinToMap(coin);
             money -= generatedRandomCoin;
         }
@@ -42,10 +42,6 @@ public class VendingMachine {
 
     private void putCoinToMap(Coin coin) {
         holdingMoney.put(coin, holdingMoney.get(coin) + 1);
-    }
-
-    public int getMoney() {
-        return money;
     }
 
     public Map<Coin, Integer> getHoldingMoney() {

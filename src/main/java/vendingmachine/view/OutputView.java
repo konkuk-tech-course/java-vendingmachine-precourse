@@ -2,44 +2,50 @@ package vendingmachine.view;
 
 import vendingmachine.Coin;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import static vendingmachine.Coin.*;
+
 public class OutputView {
 
-    static final String format = "%d원 - %d개\n";
+    private static final String format = "%d원 - %d개\n";
+    private final Map<Coin, Integer> returnedCoin = new LinkedHashMap<>();
 
     public void printMachineCoin(Map<Coin, Integer> holdingMoney) {
+        System.out.println("자판기가 보유한 동전");
+        printIntoFormat(holdingMoney);
+    }
+
+    private void printIntoFormat(Map<Coin, Integer> holdingMoney) {
         holdingMoney.forEach((coin, count) -> System.out.printf(format, coin.getAmount(), count));
     }
 
     public void printReturnedCoin(Map<Coin, Integer> holdingMoney, int money) {
         System.out.println("투입 금액: " + money + "원\n");
-        // 자판기가 가지고 있는 돈이 money보다 적을 경우 다 주기
+        System.out.println("잔돈");
         int totalMachineMoney = getTotalMachineMoney(holdingMoney);
         if (totalMachineMoney <= money){
-            System.out.println("잔돈");
-            printMachineCoin(holdingMoney);
+            printIntoFormat(holdingMoney);
             return;
         }
-        // 투입금액이 크지 않으면 최소개수로 반환
-        // 먼저 500원부터 반환해주고, 100원 반환해주고 , 50원 반환해주고, 10원 반환해주고
         for (Entry<Coin, Integer> coinIntegerEntry : holdingMoney.entrySet()) {
-            int count = money % coinIntegerEntry.getKey().getAmount();
-            if (coinIntegerEntry.getValue() < count) {
-                // entry에서 지우기
-
+            int count = money / coinIntegerEntry.getKey().getAmount(); // 1770 / 500 == 3 // 실제 자판기 : 500원 4개
+            if (count == 0) {
+                continue;
             }
+            if (coinIntegerEntry.getValue() < count) {
+                // entry에서 지우기, money에서 값 만 큼 빼기
+                returnedCoin.put(coinIntegerEntry.getKey(), coinIntegerEntry.getValue());
+                money -= coinIntegerEntry.getValue();
+                holdingMoney.remove(coinIntegerEntry.getKey());
+                continue;
+            }
+            returnedCoin.put(coinIntegerEntry.getKey(), count);
             money -= coinIntegerEntry.getKey().getAmount() * count;
-            holdingMoney.put(coinIntegerEntry.getKey(), holdingMoney.get(coinIntegerEntry.getKey()) - count);
         }
-
-        int five_hundred = money % Coin.COIN_500.getAmount();
-        holdingMoney.get(Coin.COIN_500);
-
-
-        // 잔돈 출력
-        System.out.println();
+        printIntoFormat(returnedCoin);
     }
 
     private int getTotalMachineMoney(Map<Coin, Integer> holdingMoney) {
@@ -48,5 +54,16 @@ public class OutputView {
             totalMoney += coinIntegerEntry.getKey().getAmount() * coinIntegerEntry.getValue();
         }
         return totalMoney;
+    }
+
+    public static void main(String[] args) {
+        OutputView outputView = new OutputView();
+        Map<Coin, Integer> map = new LinkedHashMap<>();
+        map.put(COIN_500, 3);
+        map.put(COIN_100, 5);
+        map.put(COIN_50, 3);
+        map.put(COIN_10, 1);
+        outputView.printReturnedCoin(map, 1350);
+
     }
 }
