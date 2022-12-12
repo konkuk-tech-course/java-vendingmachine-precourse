@@ -26,6 +26,7 @@ public enum Coin {
         this.count = count;
     }
 
+    // 이건 안쓰는게 좋음
     @Override
     public String toString() {
         return amount + coinUnit + count + countUnit;

@@ -25,6 +25,12 @@ public class InputView {
         return object;
     }
 
+    public void test(){
+        String str = "[콜라,2000,10]";
+        //productInventory(str);
+        System.out.println(productInventory(str));
+    }
+
 
     // 투입 금액 입력
 
