@@ -25,18 +25,18 @@ public class ItemValidator extends Validator {
     }
 
     private static void isRightQuantity(String quantitiy) {
-        try{
+        try {
             isNumber(quantitiy);
-        }catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("[ERROR] 수량에 숫자를 입력해주세요");
         }
         isPositive(quantitiy);
     }
 
     private static void isRightPrice(String price) {
-        try{
+        try {
             isNumber(price);
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("[ERROR] 가격에 숫자를 입력해주세요");
         }
         isPositive(price);
@@ -44,9 +44,12 @@ public class ItemValidator extends Validator {
     }
 
     private static void isContainsAllItemInfosAndThrowsException(String[] itemInfos) {
-        isContainsAllItemInfos(itemInfos){
+        try {
+            isContainsAllItemInfos(itemInfos);
+        } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("[ERROR] 상품 정보를 올바르게 입력해주세요");
         }
+
     }
 
     private static boolean isContainsAllItemInfos(String[] itemInfos) {
@@ -54,12 +57,12 @@ public class ItemValidator extends Validator {
     }
 
     private static void isContainsBracketAndThrowException(String item, int length) {
-        if(!isContainsBracket(item,length)){
-            throw new IllegalArgumentException("[ERROR] 상품 정보를 올바르게 입력해주세요")
+        if (!isContainsBracket(item, length)) {
+            throw new IllegalArgumentException("[ERROR] 상품 정보를 올바르게 입력해주세요");
         }
     }
 
     private static boolean isContainsBracket(String item, int length) {
-        return item.indexOf('[') == 0 && item.lastIndexOf(']') == length -1;
+        return item.indexOf('[') == 0 && item.lastIndexOf(']') == length - 1;
     }
 }
