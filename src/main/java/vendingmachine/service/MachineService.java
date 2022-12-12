@@ -1,10 +1,12 @@
 package vendingmachine.service;// @ author ninaaano
 
 import vendingmachine.domain.Coin;
+import vendingmachine.domain.Item;
 import vendingmachine.domain.Machine;
 import vendingmachine.repository.MachineRepository;
 import vendingmachine.util.generator.CoinGenerator;
 
+import java.util.Map;
 import java.util.SortedMap;
 
 public class MachineService {
@@ -26,4 +28,8 @@ public class MachineService {
     }
 
 
+    public void addItem(Long id, Map<String, Item> items) {
+        Machine machine = machineRepository.findById(id);
+        machine.addItems(items);
+    }
 }
