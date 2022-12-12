@@ -1,7 +1,7 @@
 package vendingmachine.view;// @ author ninaaano
 
 
-import vendingmachine.view.costant.Message;
+import vendingmachine.view.costant.ViewMessage;
 import vendingmachine.domain.Coin;
 
 import java.util.SortedMap;
@@ -13,11 +13,11 @@ public class OutputView {
     }
 
     public static void printMachineGetCoins(){
-        System.out.println(Message.OUTPUT_MACHINE_HOLDING_COINS.getMessage());
+        System.out.println(ViewMessage.OUTPUT_MACHINE_HOLDING_COINS.getMessage());
     }
 
     public static void printInsertCoins(Integer amount){
-        System.out.println(Message.OUTPUT_INSERT_COINS.getMessage() + amount + "원");
+        System.out.println(ViewMessage.OUTPUT_INSERT_COINS.getMessage() + amount + "원");
     }
 
     public static void printMachineCoins(SortedMap<Coin, Integer> coins) {
@@ -27,6 +27,6 @@ public class OutputView {
     }
 
     public static void printChanges(){
-        System.out.println(Message.OUTPUT_CHANGES.getMessage());
+        System.out.println(ViewMessage.OUTPUT_CHANGES.getMessage());
     }
 }
