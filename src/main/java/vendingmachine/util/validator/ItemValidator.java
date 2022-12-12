@@ -1,5 +1,6 @@
 package vendingmachine.util.validator;// @ author ninaaano
 
+import vendingmachine.util.parser.ItemParser;
 import vendingmachine.util.parser.costant.ParserMessage;
 
 public class ItemValidator extends Validator {
@@ -18,19 +19,20 @@ public class ItemValidator extends Validator {
 
     private static void isRightItem(String item) {
         isContainsBracketAndThrowException(item, item.length());
+        item = ItemParser.removeBigBracket(item);
         String[] itemInfos = item.split(ParserMessage.COMMA.getMessage());
         isContainsAllItemInfosAndThrowsException(itemInfos);
         isRightPrice(itemInfos[1]);
         isRightQuantity(itemInfos[2]);
     }
 
-    private static void isRightQuantity(String quantitiy) {
+    private static void isRightQuantity(String quantity) {
         try {
-            isNumber(quantitiy);
+            isNumber(quantity);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("[ERROR] 수량에 숫자를 입력해주세요");
         }
-        isPositive(quantitiy);
+        isPositive(quantity);
     }
 
     private static void isRightPrice(String price) {
@@ -44,12 +46,9 @@ public class ItemValidator extends Validator {
     }
 
     private static void isContainsAllItemInfosAndThrowsException(String[] itemInfos) {
-        try {
-            isContainsAllItemInfos(itemInfos);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("[ERROR] 상품 정보를 올바르게 입력해주세요");
-        }
-
+            if(!isContainsAllItemInfos(itemInfos)) {
+                throw new IllegalArgumentException("[ERROR] 상품 정보를 올바르게 입력해주세요");
+            }
     }
 
     private static boolean isContainsAllItemInfos(String[] itemInfos) {

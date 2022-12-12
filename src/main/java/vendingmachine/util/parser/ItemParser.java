@@ -23,9 +23,9 @@ public class ItemParser extends Parser{
         items.put(itemInfos[0],new Item(itemInfos[0],Integer.parseInt(itemInfos[1]),Integer.parseInt(itemInfos[2])));
     }
 
-    private static String removeBigBracket(String item) {
-        item.replace(ParserMessage.LEFT_BIG_BRACKET.getMessage(),ParserMessage.EMPTY.getMessage());
-        item.replace(ParserMessage.RIGHT_BIG_BRACKET.getMessage(),ParserMessage.EMPTY.getMessage());
+    public static String removeBigBracket(String item) {
+        item = item.replace(ParserMessage.LEFT_BIG_BRACKET.getMessage(),ParserMessage.EMPTY.getMessage());
+        item = item.replace(ParserMessage.RIGHT_BIG_BRACKET.getMessage(),ParserMessage.EMPTY.getMessage());
         return item;
     }
 }
