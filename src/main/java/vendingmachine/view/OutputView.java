@@ -6,8 +6,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import static vendingmachine.Coin.*;
-
 public class OutputView {
 
     private static final String format = "%d원 - %d개\n";
