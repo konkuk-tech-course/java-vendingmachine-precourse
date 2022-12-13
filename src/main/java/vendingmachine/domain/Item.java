@@ -12,5 +12,22 @@ public class Item {
         this.quantity = quantity;
     }
 
+    public Boolean isSoldOut() {
+        return quantity == 0;
+    }
 
+    public int getPrice() {
+        return price;
+    }
+
+    public void decreaseQuantity() {
+        if(!isPurchasable()){
+            throw new IllegalArgumentException("[ERROR] 상품이 소진되었습니다. 다른 상품을 선택해주세요");
+        }
+        this.quantity -= 1;
+    }
+
+    private boolean isPurchasable() {
+        return this.quantity > 0;
+    }
 }

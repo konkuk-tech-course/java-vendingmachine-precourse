@@ -17,8 +17,20 @@ public class Controller {
         inputCoinsToMachineByManager(machineId);
         inputItemsToMachineByManager(machineId);
         inputCoinsToMachineByUser(machineId);
+        purchaseItemsByUser(machineId);
     }
 
+    private void purchaseItemsByUser(Long machineId) {
+        while (machineService.isPurchasable(machineId)) {
+            OutputView.printInsertCoins(machineService.getInputCoinAmount(machineId));
+            InputView.requestPurchaseItem(); // 유저가 구매할 상품 메세지 출력
+            try {
+                machineService.purchase(machineId, Console.readLine());
+            } catch (IllegalArgumentException e) {
+                OutputView.printExceptionMessage(e.getMessage());
+            }
+        }
+    }
 
     /**
      * 투입 금액을 입력해 주세요. > 입력 메세지 출력

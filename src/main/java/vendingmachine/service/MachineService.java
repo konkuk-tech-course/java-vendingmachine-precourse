@@ -37,4 +37,20 @@ public class MachineService {
         Machine machine = machineRepository.findById(id);
         machine.addInputCoinAmount(amount);
     }
+
+    public boolean isPurchasable(Long id) {
+        Machine machine = machineRepository.findById(id);
+        return machine.isPurchasable();
+    }
+
+    public int getInputCoinAmount(Long id) {
+        Machine machine = machineRepository.findById(id);
+        return machine.getInputCoinAmount();
+    }
+
+    public void purchase(Long id, String itemName) throws IllegalArgumentException {
+        Machine machine = machineRepository.findById(id);
+        machine.purchase(itemName);
+    }
+
 }

@@ -23,4 +23,12 @@ public class CoinStorage {
     public void addInputCoinAmount(final int amount) {
         this.inputCoinAmount += amount;
     }
+
+    public int getInputCoinAmount() {
+        return inputCoinAmount;
+    }
+
+    public void decreaseInputCoinAmount(int price) {
+        inputCoinAmount -= price;
+    }
 }
