@@ -47,4 +47,9 @@ public class Machine {
         item.decreaseQuantity();
     }
 
+    public SortedMap<Coin, Integer> returnCoins() {
+        SortedMap<Coin,Integer> returnCoins = coinStorage.returnCoins();
+        coinStorage.decreaseInputCoinAmount(coinStorage.getTotalAmount(returnCoins));
+        return returnCoins;
+    }
 }

@@ -18,6 +18,13 @@ public class Controller {
         inputItemsToMachineByManager(machineId);
         inputCoinsToMachineByUser(machineId);
         purchaseItemsByUser(machineId);
+        printRestCoinsAndExit(machineId);
+    }
+
+    private void printRestCoinsAndExit(Long machineId) {
+        OutputView.printInsertCoins(machineService.getInputCoinAmount(machineId)); // 투입금액 출력
+        OutputView.printChanges();
+        OutputView.printMachineCoins(machineService.returnCoins(machineId));
     }
 
     private void purchaseItemsByUser(Long machineId) {
@@ -32,16 +39,6 @@ public class Controller {
         }
     }
 
-    /**
-     * 투입 금액을 입력해 주세요. > 입력 메세지 출력
-     * 3000 > 입력 받기
-     * ------------------ 완료
-     *
-     * 투입 금액: 3000원 > 입력한 금액 출력
-     * 구매할 상품명을 입력해 주세요. > 메세지 출력
-     * 콜라 > 입력받기
-     * @param machineId
-     */
     private void inputCoinsToMachineByUser(Long machineId) {
         InputView.requestInputCoins(); // 사용자 입력
         machineService.addInputCoins(machineId,getInputCoinsByUser());
@@ -86,6 +83,4 @@ public class Controller {
             return getCoinAmountByUser();
         }
     }
-
-
 }

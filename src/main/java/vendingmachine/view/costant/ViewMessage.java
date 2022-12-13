@@ -7,7 +7,7 @@ public enum ViewMessage {
     INPUT_USER_BUY_PRODUCT("구매할 상품명을 입력해 주세요."),
 
     OUTPUT_MACHINE_HOLDING_COINS("\n자판기가 보유한 동전"),
-    OUTPUT_INSERT_COINS("\n투입 금액:"),
+    OUTPUT_INSERT_COINS("\n투입 금액: "),
     OUTPUT_CHANGES("잔돈");
 
     private String message;

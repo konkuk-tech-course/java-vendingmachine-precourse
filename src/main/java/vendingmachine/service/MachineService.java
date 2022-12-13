@@ -53,4 +53,8 @@ public class MachineService {
         machine.purchase(itemName);
     }
 
+    public SortedMap<Coin, Integer> returnCoins(Long id) {
+        Machine machine = machineRepository.findById(id);
+        return machine.returnCoins();
+    }
 }
