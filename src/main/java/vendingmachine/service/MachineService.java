@@ -32,4 +32,9 @@ public class MachineService {
         Machine machine = machineRepository.findById(id);
         machine.addItems(items);
     }
+
+    public void addInputCoins(Long id, Integer amount) {
+        Machine machine = machineRepository.findById(id);
+        machine.addInputCoinAmount(amount);
+    }
 }

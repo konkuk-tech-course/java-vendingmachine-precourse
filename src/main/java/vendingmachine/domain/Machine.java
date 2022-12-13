@@ -20,4 +20,8 @@ public class Machine {
     public void addItems(Map<String, Item> items) {
         itemStorage.addItems(items);
     }
+
+    public void addInputCoinAmount(final int amount) {
+        coinStorage.addInputCoinAmount(amount);
+    }
 }

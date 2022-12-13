@@ -19,4 +19,8 @@ public class CoinStorage {
             MapSupporter.increaseCoinCount(this.coin,coin,0,coins.get(coin));
         }
     }
+
+    public void addInputCoinAmount(final int amount) {
+        this.inputCoinAmount += amount;
+    }
 }
