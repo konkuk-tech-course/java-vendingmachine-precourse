@@ -30,8 +30,3 @@ out/
 
 ### VS Code ###
 .vscode/
-
-## addtitional gitignore
-/gradle
-gradle*
-settings.gradle
